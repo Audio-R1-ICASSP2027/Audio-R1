@@ -36,298 +36,600 @@
   <meta name="citation_conference_title" content="IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)">
 
   <title>Audio-R1: Audio Reasoning through Reinforcement Learning on Self-Supervised Tasks</title>
-
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
-  <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
-  <link rel="stylesheet" href="static/css/index.css">
   <link rel="icon" href="static/images/favicon.ico">
 
-  <script defer src="static/js/fontawesome.all.min.js"></script>
-  <script src="static/js/bulma-carousel.min.js"></script>
-  <script src="static/js/bulma-slider.min.js"></script>
-  <script src="static/js/index.js"></script>
-
   <style>
-    .task-card { height: 100%; border: 1px solid #ececec; border-radius: 8px; padding: 1.1rem 1.2rem; background: #fcfcfc; }
-    .task-card h4 { font-weight: 600; margin-bottom: .45rem; }
-    .results-table { font-size: 0.92rem; }
-    .results-table th { white-space: nowrap; }
-    .group-row td { background: #f2f2f2; font-style: italic; font-weight: 600; }
-    .r1-row td { background: #f4f8fd; }
-    .gain { color: #2a78d6; font-size: 0.82em; }
-    .best { font-weight: 700; }
-    .fig-note { color: #7a7a7a; font-size: 0.9rem; }
-    .figure-block { margin-top: 1.8rem; }
+    :root {
+      --primary: #34588e;
+      --primary-dark: #2a4670;
+      --accent: #b84a3c;
+      --gradient: linear-gradient(135deg, #34588e 0%, #b84a3c 100%);
+      --text: #333;
+      --heading: #2d3748;
+      --body: #4a5568;
+      --muted: #718096;
+      --border: #e2e8f0;
+      --soft: #f7fafc;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background: #ffffff;
+      padding: 20px;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; background: #ffffff; overflow: hidden; }
+
+    /* ---------- Header ---------- */
+    header {
+      text-align: center;
+      padding: 60px 40px 40px;
+      color: var(--heading);
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      font-size: 2.6em;
+      margin: 0 auto 10px;
+      font-weight: 700;
+      line-height: 1.3;
+      max-width: 1000px;
+      color: #1a202c;
+    }
+
+    h1 .project-name { font-size: 1.1em; font-weight: 800; }
+    h1 .name-a { color: #265992; }
+    h1 .name-b { color: #c74034; }
+    h1 .title-divider { margin: 0 0.3em 0 0; color: var(--primary); }
+
+    .authors {
+      font-size: 1.05em;
+      margin: 25px auto;
+      line-height: 1.8;
+      max-width: 900px;
+      color: var(--heading);
+    }
+
+    .authors span { white-space: nowrap; }
+
+    .affiliations {
+      font-size: 0.95em;
+      margin: 20px auto;
+      line-height: 1.6;
+      max-width: 800px;
+      color: var(--muted);
+    }
+
+    .conference-tag {
+      display: inline-block;
+      background: var(--gradient);
+      color: #ffffff;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 1em;
+      font-weight: 600;
+      margin: 15px 0 10px;
+      box-shadow: 0 2px 8px rgba(52, 88, 142, 0.3);
+    }
+
+    .keywords {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+
+    .keyword-tag {
+      background: var(--soft);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      color: var(--body);
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background: var(--primary);
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(52, 88, 142, 0.3);
+      font-size: 0.95em;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(52, 88, 142, 0.4);
+      background: var(--primary-dark);
+    }
+
+    /* ---------- Sections ---------- */
+    .content { padding: 60px 40px; }
+    .section { margin-bottom: 60px; }
+
+    .section-title {
+      font-size: 2em;
+      margin-bottom: 30px;
+      text-align: center;
+      color: var(--heading);
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .text-block {
+      max-width: 960px;
+      margin: 0 auto;
+      color: var(--body);
+      font-size: 1.05em;
+      line-height: 1.8;
+      text-align: justify;
+    }
+
+    .text-block p + p { margin-top: 1em; }
+    .text-block b { color: var(--heading); }
+
+    .abstract-box {
+      background: var(--soft);
+      padding: 40px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+    }
+
+    .demo-container { text-align: center; margin: 40px 0; }
+
+    .demo-container img {
+      max-width: 100%;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .demo-container.flat img { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); }
+
+    .image-caption {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95em;
+      margin: 15px auto 0;
+      font-style: italic;
+      max-width: 960px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .feature-card {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 16px rgba(52, 88, 142, 0.15);
+      border-color: var(--primary);
+    }
+
+    .feature-card h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.3em; }
+    .feature-card p { color: var(--body); line-height: 1.8; }
+
+    .highlight-box {
+      background: var(--soft);
+      padding: 20px 24px;
+      margin: 30px auto;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      color: var(--body);
+      line-height: 1.8;
+      max-width: 960px;
+    }
+
+    /* ---------- Results table ---------- */
+    .table-card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .table-card h3 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.2em;
+      font-weight: 600;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .table-card h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 3px;
+      background: var(--gradient);
+      border-radius: 2px;
+    }
+
+    .table-wrapper { overflow-x: auto; }
+
+    .results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 1em;
+    }
+
+    .results-table th,
+    .results-table td {
+      padding: 12px 10px;
+      text-align: center;
+      border: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .results-table thead th {
+      background: var(--gradient);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .results-table thead th:first-child { border-top-left-radius: 8px; text-align: left; padding-left: 14px; }
+    .results-table thead th:last-child { border-top-right-radius: 8px; }
+
+    .results-table tbody tr:hover { background: #edf2f7; }
+
+    .results-table .group-row td {
+      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+      font-weight: 600;
+      color: var(--heading);
+      border-top: 2px solid var(--primary);
+      text-align: left;
+      padding-left: 14px;
+      font-style: italic;
+    }
+
+    .results-table .method-name { font-weight: 600; color: var(--body); text-align: left; padding-left: 14px; }
+    .results-table .r1-row { background: rgba(52, 88, 142, 0.06); }
+    .results-table .r1-row .method-name { color: var(--primary); padding-left: 30px; }
+    .results-table .gain { color: #2a78d6; font-size: 0.82em; margin-left: 2px; }
+    .results-table .best-value { font-weight: 700; color: var(--primary); }
+
+    .table-note { text-align: center; color: var(--muted); font-size: 0.9em; margin-top: 12px; }
+
+    /* ---------- Citation ---------- */
+    .citation {
+      background: var(--soft);
+      color: var(--heading);
+      padding: 30px;
+      border-radius: 15px;
+      margin: 40px 0 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95em;
+      line-height: 1.6;
+      position: relative;
+      border: 1px solid var(--border);
+    }
+
+    .citation::before {
+      content: 'Citation';
+      position: absolute;
+      top: -12px;
+      left: 20px;
+      background: var(--primary);
+      color: #ffffff;
+      padding: 5px 15px;
+      border-radius: 5px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      font-size: 0.9em;
+      box-shadow: 0 2px 4px rgba(52, 88, 142, 0.3);
+    }
+
+    .citation pre { white-space: pre-wrap; word-break: break-word; font-family: inherit; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      background: var(--soft);
+      color: var(--body);
+      text-align: center;
+      padding: 30px;
+      font-size: 0.95em;
+      border-top: 1px solid var(--border);
+    }
+
+    footer a { color: var(--primary); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    footer .footer-note { margin-top: 10px; opacity: 0.8; font-size: 0.9em; }
+
+    @media (max-width: 768px) {
+      body { padding: 0; }
+      header { padding: 40px 16px 30px; }
+      h1 { font-size: 1.8em; }
+      .content { padding: 40px 16px; }
+      .abstract-box { padding: 24px 20px; }
+      .section-title { font-size: 1.6em; }
+      .buttons { flex-direction: column; align-items: center; }
+      .btn { width: 80%; text-align: center; }
+      .feature-grid { grid-template-columns: 1fr; gap: 20px; }
+      .table-card { padding: 12px; }
+      .results-table { font-size: 0.88em; }
+      .results-table th, .results-table td { padding: 10px 6px; }
+    }
   </style>
 </head>
 <body>
+<div class="container">
 
-<!-- ===================== Hero ===================== -->
-<section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Audio-R1</h1>
-          <h2 class="subtitle is-4" style="margin-bottom:1.3rem;">
-            Audio Reasoning through Reinforcement Learning on Self-Supervised Tasks
-          </h2>
+  <!-- ===================== Header ===================== -->
+  <header>
+    <h1>
+      <span class="project-name"><span class="name-a">Audio</span><span class="name-b">-R1</span></span><span class="title-divider">:</span>Audio Reasoning through Reinforcement Learning on Self-Supervised Tasks
+    </h1>
 
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">Jihoon Jeong<sup>1,2</sup>,</span>
-            <span class="author-block">Mirco Ravanelli<sup>1,3</sup>,</span>
-            <span class="author-block">Zhepei Wang<sup>4</sup>,</span>
-            <span class="author-block">Cem Subakan<sup>1,2,3</sup></span>
-          </div>
+    <div class="authors">
+      <span>Jihoon Jeong<sup>1,2</sup>,</span>
+      <span>Mirco Ravanelli<sup>1,3</sup>,</span>
+      <span>Zhepei Wang<sup>4</sup>,</span>
+      <span>Cem Subakan<sup>1,2,3</sup></span>
+    </div>
 
-          <div class="is-size-6 publication-authors" style="margin-top:.5rem;">
-            <span class="author-block"><sup>1</sup>Mila-Québec AI Institute &nbsp;</span>
-            <span class="author-block"><sup>2</sup>Université Laval &nbsp;</span>
-            <span class="author-block"><sup>3</sup>Concordia University &nbsp;</span>
-            <span class="author-block"><sup>4</sup>Adobe Research</span>
-          </div>
+    <div class="affiliations">
+      <sup>1</sup>Mila-Québec AI Institute &nbsp;&nbsp;
+      <sup>2</sup>Université Laval &nbsp;&nbsp;
+      <sup>3</sup>Concordia University &nbsp;&nbsp;
+      <sup>4</sup>Adobe Research
+    </div>
 
-          <div class="is-size-6" style="margin-top:.6rem; color:#666;">ICASSP 2027 (under review)</div>
+    <div class="conference-tag">ICASSP 2027 (under review)</div>
 
-          <div class="column has-text-centered" style="margin-top:1.3rem;">
-            <div class="publication-links">
-              <span class="link-block">
-                <a href="#" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fas fa-file-pdf"></i></span><span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="#" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fas fa-archive"></i></span><span>arXiv</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://github.com/Audio-R1-ICASSP2027/Audio-R1" class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
-                </a>
-              </span>
-            </div>
-          </div>
-        </div>
+    <div class="keywords">
+      <span class="keyword-tag">Large Audio-Language Models</span>
+      <span class="keyword-tag">Audio Reasoning</span>
+      <span class="keyword-tag">Reinforcement Learning</span>
+      <span class="keyword-tag">Self-Supervised Learning</span>
+    </div>
+
+    <div class="buttons">
+      <a href="#" class="btn">📄 Paper</a>
+      <a href="#" class="btn">📑 arXiv</a>
+      <a href="https://github.com/Audio-R1-ICASSP2027/Audio-R1" class="btn" target="_blank" rel="noopener">💻 Code</a>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ===================== Teaser ===================== -->
+    <div class="section">
+      <div class="demo-container">
+        <img src="static/figures/overview_audio_r1.png" alt="Overview of the Audio-R1 framework">
+        <p class="image-caption">
+          Audio-R1 derives verifiable rewards from self-supervised audio tasks. Because each answer is fixed
+          while the audio is being constructed, rewards need no human annotation or external supervision.
+        </p>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ===================== Teaser ===================== -->
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <img src="static/figures/overview_audio_r1.png" alt="Overview of the Audio-R1 framework" style="width:100%;">
-      <h2 class="subtitle has-text-centered fig-note" style="margin-top:.9rem;">
-        <b>Audio-R1</b> derives verifiable rewards from self-supervised audio tasks. Because each answer is fixed
-        while the audio is being constructed, rewards need no human annotation or external supervision.
-      </h2>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== Abstract ===================== -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            Reasoning is increasingly important for large audio-language models (LALMs), yet remains relatively
-            underexplored compared with text-only and vision-language models. We introduce <b>Audio-R1</b>, a
-            reinforcement learning post-training framework that revisits audio self-supervised learning (SSL) as a
-            source of verifiable rewards for improving audio understanding and reasoning task performance.
-            Audio-R1 uses answers automatically determined during the construction of self-supervised tasks to
-            verify model responses and compute rewards.
-          </p>
-          <p>
-            Experiments across multiple LALMs and diverse audio benchmarks show consistent performance gains, while
-            ablations demonstrate the benefits of individual SSL tasks and further improvements from joint training.
-            While both supervised fine-tuning (SFT) and Audio-R1 improve SSL task accuracy, Audio-R1 further improves
-            performance on downstream tasks distinct from the SSL training tasks. These results highlight the
-            potential of RL post-training with self-supervised audio tasks to improve downstream performance and
-            reasoning-trace quality.
-          </p>
-        </div>
+    <!-- ===================== Abstract ===================== -->
+    <div class="section">
+      <h2 class="section-title">Abstract</h2>
+      <div class="text-block abstract-box">
+        <p>
+          Reasoning is increasingly important for large audio-language models (LALMs), yet remains relatively
+          underexplored compared with text-only and vision-language models. We introduce <b>Audio-R1</b>, a
+          reinforcement learning post-training framework that revisits audio self-supervised learning (SSL) as a
+          source of verifiable rewards for improving audio understanding and reasoning task performance.
+          Audio-R1 uses answers automatically determined during the construction of self-supervised tasks to
+          verify model responses and compute rewards.
+        </p>
+        <p>
+          Experiments across multiple LALMs and diverse audio benchmarks show consistent performance gains, while
+          ablations demonstrate the benefits of individual SSL tasks and further improvements from joint training.
+          While both supervised fine-tuning (SFT) and Audio-R1 improve SSL task accuracy, Audio-R1 further improves
+          performance on downstream tasks distinct from the SSL training tasks. These results highlight the
+          potential of RL post-training with self-supervised audio tasks to improve downstream performance and
+          reasoning-trace quality.
+        </p>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ===================== SSL Tasks ===================== -->
-<section class="section" style="padding-top:0;">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Self-Supervised Tasks</h2>
-    <div class="content has-text-justified">
-      <p>
-        Audio-R1 trains on three self-supervised tasks designed to encourage the use of <b>acoustic</b>,
-        <b>temporal</b>, and <b>semantic</b> cues. Each task's answer is determined during construction, so a
-        rule-based verifier can check any response and turn it directly into a reward.
-      </p>
-    </div>
+    <!-- ===================== SSL Tasks ===================== -->
+    <div class="section">
+      <h2 class="section-title">Self-Supervised Tasks</h2>
+      <div class="text-block">
+        <p>
+          Audio-R1 trains on three self-supervised tasks designed to encourage the use of <b>acoustic</b>,
+          <b>temporal</b>, and <b>semantic</b> cues. Each task's answer is determined during construction, so a
+          rule-based verifier can check any response and turn it directly into a reward.
+        </p>
+      </div>
 
-    <div class="columns" style="margin-top:.5rem;">
-      <div class="column">
-        <div class="task-card">
-          <h4>Identity Detection</h4>
-          <p class="is-size-6">Given an anchor clip and candidate clips, decide which candidates come from the
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🎯 Identity Detection</h3>
+          <p>Given an anchor clip and candidate clips, decide which candidates come from the
           same source recording as the anchor.</p>
         </div>
-      </div>
-      <div class="column">
-        <div class="task-card">
-          <h4>Region Inpainting</h4>
-          <p class="is-size-6">A segment is removed from a clip; the model picks the candidate segment that fills
+        <div class="feature-card">
+          <h3>🧩 Region Inpainting</h3>
+          <p>A segment is removed from a clip; the model picks the candidate segment that fills
           the gap, using surrounding context and acoustic continuity.</p>
         </div>
-      </div>
-      <div class="column">
-        <div class="task-card">
-          <h4>Temporal Ordering</h4>
-          <p class="is-size-6">Segments cut from one continuous recording are shuffled; the model recovers their
+        <div class="feature-card">
+          <h3>⏱️ Temporal Ordering</h3>
+          <p>Segments cut from one continuous recording are shuffled; the model recovers their
           original chronological order.</p>
         </div>
       </div>
+
+      <div class="demo-container flat">
+        <img src="static/figures/examples_audio_r1.png" alt="Examples of the three self-supervised audio tasks">
+        <p class="image-caption">
+          Task answers are determined during construction from the source-recording identity, the removed audio
+          segment, or the original segment order.
+        </p>
+      </div>
     </div>
 
-    <div class="figure-block">
-      <img src="static/figures/examples_audio_r1.png" alt="Examples of the three self-supervised audio tasks" style="width:100%;">
-      <p class="has-text-centered fig-note" style="margin-top:.7rem;">
-        Task answers are determined during construction from the source-recording identity, the removed audio
-        segment, or the original segment order.
-      </p>
+    <!-- ===================== Results ===================== -->
+    <div class="section">
+      <h2 class="section-title">Results</h2>
+      <div class="text-block" style="margin-bottom:30px;">
+        <p>
+          Audio-R1 improves every open-weight backbone we tested on all three out-of-domain benchmarks
+          (MMAR, MMAU-mini, MMAU-Pro), even though none of these benchmarks are used during training.
+        </p>
+      </div>
+
+      <div class="table-card">
+        <h3>Performance on MMAR, MMAU-mini, and MMAU-Pro</h3>
+        <div class="table-wrapper">
+          <table class="results-table">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>MMAR</th>
+                <th>MMAU-mini</th>
+                <th>MMAU-Pro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="group-row"><td colspan="4">Closed-source models</td></tr>
+              <tr><td class="method-name">GPT-4o mini Audio</td><td>51.0</td><td>59.6</td><td>48.3</td></tr>
+              <tr><td class="method-name">GPT-4o Audio</td><td>62.8</td><td>62.5</td><td>52.5</td></tr>
+              <tr><td class="method-name">Gemini 2.0 Flash</td><td>65.5</td><td>70.5</td><td>55.7</td></tr>
+              <tr><td class="method-name">Gemini 2.5 Flash</td><td>67.9</td><td>71.8</td><td>59.2</td></tr>
+
+              <tr class="group-row"><td colspan="4">Models finetuned with RL</td></tr>
+              <tr><td class="method-name">Audio-Reasoner</td><td>37.5</td><td>67.7</td><td>39.5</td></tr>
+              <tr><td class="method-name">Omni-R1</td><td>63.4</td><td>76.0</td><td>&ndash;</td></tr>
+              <tr><td class="method-name">Audio-Thinker</td><td>65.3</td><td>76.5</td><td>&ndash;</td></tr>
+
+              <tr class="group-row"><td colspan="4">Open-weight models w/ and w/o Audio-R1</td></tr>
+              <tr><td class="method-name">Gemma4-e4b</td><td>50.0</td><td>62.3</td><td>48.7</td></tr>
+              <tr class="r1-row"><td class="method-name">+ Audio-R1</td>
+                <td>52.8 <span class="gain">(+2.8)</span></td>
+                <td>64.1 <span class="gain">(+1.8)</span></td>
+                <td>50.5 <span class="gain">(+1.8)</span></td></tr>
+
+              <tr><td class="method-name">AF-Next-Think</td><td>56.0</td><td>74.5</td><td>54.1</td></tr>
+              <tr class="r1-row"><td class="method-name">+ Audio-R1</td>
+                <td>57.0 <span class="gain">(+1.0)</span></td>
+                <td>77.2 <span class="gain">(+2.7)</span></td>
+                <td>56.0 <span class="gain">(+1.9)</span></td></tr>
+
+              <tr><td class="method-name">Qwen2.5-Omni</td><td>58.2</td><td>73.4</td><td>55.1</td></tr>
+              <tr class="r1-row"><td class="method-name">+ Audio-R1</td>
+                <td>61.6 <span class="gain">(+3.4)</span></td>
+                <td>76.2 <span class="gain">(+2.8)</span></td>
+                <td>57.7 <span class="gain">(+2.6)</span></td></tr>
+
+              <tr><td class="method-name">Qwen3-Omni</td><td>67.5</td><td>74.9</td><td>61.5</td></tr>
+              <tr class="r1-row"><td class="method-name">+ Audio-R1</td>
+                <td class="best-value">69.3 <span class="gain">(+1.8)</span></td>
+                <td class="best-value">78.5 <span class="gain">(+3.6)</span></td>
+                <td class="best-value">64.2 <span class="gain">(+2.7)</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Accuracy (%). Values in parentheses are gains over the corresponding backbone.</p>
+      </div>
+
+      <div class="demo-container flat">
+        <img src="static/figures/transfer_radar_v3.png" alt="Performance before and after Audio-R1 across audio-language models">
+        <p class="image-caption">
+          Performance before and after Audio-R1 across different LALMs, on three in-domain SSL tasks and three
+          out-of-domain benchmarks.
+        </p>
+      </div>
     </div>
-  </div>
-</section>
 
-<!-- ===================== Results ===================== -->
-<section class="section" style="padding-top:0;">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Results</h2>
-    <div class="content has-text-justified">
-      <p>
-        Audio-R1 improves every open-weight backbone we tested on all three out-of-domain benchmarks
-        (MMAR, MMAU-mini, MMAU-Pro), even though none of these benchmarks are used during training.
-      </p>
+    <!-- ===================== SFT vs Audio-R1 ===================== -->
+    <div class="section">
+      <h2 class="section-title">SFT vs. Audio-R1</h2>
+      <div class="text-block">
+        <p>
+          Both SFT and Audio-R1 learn the self-supervised tasks well. They differ in what happens <i>outside</i>
+          those tasks: across training configurations, SFT degrades out-of-domain performance despite sizeable
+          in-domain gains, while Audio-R1 turns in-domain gains into out-of-domain improvements.
+        </p>
+      </div>
+      <div class="highlight-box">
+        💡 Transferability depends not only on <i>what</i> capability is learned, but also on <i>how</i> it is learned.
+      </div>
+      <div class="demo-container flat">
+        <img src="static/figures/rq3_acc_quality_rows.png" alt="Accuracy and reasoning-trace quality for SFT and Audio-R1">
+        <p class="image-caption">
+          Out-of-domain accuracy and reasoning-trace quality for SFT and Audio-R1.
+        </p>
+      </div>
     </div>
 
-    <div class="table-container">
-      <table class="table is-fullwidth is-hoverable results-table">
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th class="has-text-centered">MMAR</th>
-            <th class="has-text-centered">MMAU-mini</th>
-            <th class="has-text-centered">MMAU-Pro</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="group-row"><td colspan="4">Closed-source models</td></tr>
-          <tr><td>GPT-4o mini Audio</td><td class="has-text-centered">51.0</td><td class="has-text-centered">59.6</td><td class="has-text-centered">48.3</td></tr>
-          <tr><td>GPT-4o Audio</td><td class="has-text-centered">62.8</td><td class="has-text-centered">62.5</td><td class="has-text-centered">52.5</td></tr>
-          <tr><td>Gemini 2.0 Flash</td><td class="has-text-centered">65.5</td><td class="has-text-centered">70.5</td><td class="has-text-centered">55.7</td></tr>
-          <tr><td>Gemini 2.5 Flash</td><td class="has-text-centered">67.9</td><td class="has-text-centered">71.8</td><td class="has-text-centered">59.2</td></tr>
-
-          <tr class="group-row"><td colspan="4">Models finetuned with RL</td></tr>
-          <tr><td>Audio-Reasoner</td><td class="has-text-centered">37.5</td><td class="has-text-centered">67.7</td><td class="has-text-centered">39.5</td></tr>
-          <tr><td>Omni-R1</td><td class="has-text-centered">63.4</td><td class="has-text-centered">76.0</td><td class="has-text-centered">&ndash;</td></tr>
-          <tr><td>Audio-Thinker</td><td class="has-text-centered">65.3</td><td class="has-text-centered">76.5</td><td class="has-text-centered">&ndash;</td></tr>
-
-          <tr class="group-row"><td colspan="4">Open-weight models w/ and w/o Audio-R1</td></tr>
-          <tr><td>Gemma4-e4b</td><td class="has-text-centered">50.0</td><td class="has-text-centered">62.3</td><td class="has-text-centered">48.7</td></tr>
-          <tr class="r1-row"><td>&nbsp;&nbsp;+ Audio-R1</td>
-            <td class="has-text-centered">52.8 <span class="gain">(+2.8)</span></td>
-            <td class="has-text-centered">64.1 <span class="gain">(+1.8)</span></td>
-            <td class="has-text-centered">50.5 <span class="gain">(+1.8)</span></td></tr>
-
-          <tr><td>AF-Next-Think</td><td class="has-text-centered">56.0</td><td class="has-text-centered">74.5</td><td class="has-text-centered">54.1</td></tr>
-          <tr class="r1-row"><td>&nbsp;&nbsp;+ Audio-R1</td>
-            <td class="has-text-centered">57.0 <span class="gain">(+1.0)</span></td>
-            <td class="has-text-centered">77.2 <span class="gain">(+2.7)</span></td>
-            <td class="has-text-centered">56.0 <span class="gain">(+1.9)</span></td></tr>
-
-          <tr><td>Qwen2.5-Omni</td><td class="has-text-centered">58.2</td><td class="has-text-centered">73.4</td><td class="has-text-centered">55.1</td></tr>
-          <tr class="r1-row"><td>&nbsp;&nbsp;+ Audio-R1</td>
-            <td class="has-text-centered">61.6 <span class="gain">(+3.4)</span></td>
-            <td class="has-text-centered">76.2 <span class="gain">(+2.8)</span></td>
-            <td class="has-text-centered">57.7 <span class="gain">(+2.6)</span></td></tr>
-
-          <tr><td>Qwen3-Omni</td><td class="has-text-centered">67.5</td><td class="has-text-centered">74.9</td><td class="has-text-centered">61.5</td></tr>
-          <tr class="r1-row"><td>&nbsp;&nbsp;+ Audio-R1</td>
-            <td class="has-text-centered best">69.3 <span class="gain">(+1.8)</span></td>
-            <td class="has-text-centered best">78.5 <span class="gain">(+3.6)</span></td>
-            <td class="has-text-centered best">64.2 <span class="gain">(+2.7)</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="fig-note">Accuracy (%). Values in parentheses are gains over the corresponding backbone.</p>
-
-    <div class="figure-block">
-      <img src="static/figures/transfer_radar_v3.png" alt="Performance before and after Audio-R1 across audio-language models" style="width:100%;">
-      <p class="has-text-centered fig-note" style="margin-top:.7rem;">
-        Performance before and after Audio-R1 across different LALMs, on three in-domain SSL tasks and three
-        out-of-domain benchmarks.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== SFT vs Audio-R1 ===================== -->
-<section class="section" style="padding-top:0;">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">SFT vs. Audio-R1</h2>
-    <div class="content has-text-justified">
-      <p>
-        Both SFT and Audio-R1 learn the self-supervised tasks well. They differ in what happens <i>outside</i>
-        those tasks: across training configurations, SFT degrades out-of-domain performance despite sizeable
-        in-domain gains, while Audio-R1 turns in-domain gains into out-of-domain improvements. This suggests that
-        transferability depends not only on <i>what</i> capability is learned, but also on <i>how</i> it is learned.
-      </p>
-    </div>
-    <img src="static/figures/rq3_acc_quality_rows.png" alt="Accuracy and reasoning-trace quality for SFT and Audio-R1" style="width:100%;">
-    <p class="has-text-centered fig-note" style="margin-top:.7rem;">
-      Out-of-domain accuracy and reasoning-trace quality for SFT and Audio-R1.
-    </p>
-  </div>
-</section>
-
-<!-- ===================== BibTeX ===================== -->
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@inproceedings{jeong2027audior1,
+    <!-- ===================== BibTeX ===================== -->
+    <div class="section" id="BibTeX" style="margin-bottom:0;">
+      <div class="citation">
+<pre>@inproceedings{jeong2027audior1,
   title     = {Audio-R1: Audio Reasoning through Reinforcement Learning on Self-Supervised Tasks},
   author    = {Jeong, Jihoon and Ravanelli, Mirco and Wang, Zhepei and Subakan, Cem},
   booktitle = {IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
   year      = {2027}
-}</code></pre>
-  </div>
-</section>
-
-<!-- ===================== Footer ===================== -->
-<footer class="footer">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <p style="text-align: center;">
-            This page was built with the
-            <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>,
-            which builds on the <a href="https://nerfies.github.io">Nerfies</a> project page.
-            This website is licensed under a
-            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons
-            Attribution-ShareAlike 4.0 International License</a>.
-          </p>
-        </div>
+}</pre>
       </div>
     </div>
-  </div>
-</footer>
 
+  </div>
+
+  <!-- ===================== Footer ===================== -->
+  <footer>
+    <p>© 2026 Audio-R1 Project | Mila-Québec AI Institute, Université Laval, Concordia University, Adobe Research</p>
+    <p class="footer-note">
+      Page design adapted from <a href="https://livioni.github.io/OmniVGGT-official/">OmniVGGT</a>.
+      Original template: <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a>
+      (<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>).
+    </p>
+  </footer>
+
+</div>
 </body>
 </html>
