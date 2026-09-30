@@ -82,12 +82,12 @@
     }
 
     h1 .project-name { font-size: 1.1em; font-weight: 800; }
-    h1 .name-a { color: #265992; }
-    h1 .name-b { color: #c74034; }
+    h1 .name-a,
+    h1 .name-b { color: #265992; }
     h1 .title-divider { margin: 0 0.3em 0 0; color: var(--primary); }
 
     .authors {
-      font-size: 1.05em;
+      font-size: 1.25em;
       margin: 25px auto;
       line-height: 1.8;
       max-width: 900px;
@@ -97,7 +97,7 @@
     .authors span { white-space: nowrap; }
 
     .affiliations {
-      font-size: 0.95em;
+      font-size: 1.1em;
       margin: 20px auto;
       line-height: 1.6;
       max-width: 800px;
@@ -456,20 +456,12 @@
       <h2 class="section-title">Abstract</h2>
       <div class="text-block abstract-box">
         <p>
-          Reasoning is increasingly important for large audio-language models (LALMs), yet remains relatively
-          underexplored compared with text-only and vision-language models. We introduce <b>Audio-R1</b>, a
-          reinforcement learning post-training framework that revisits audio self-supervised learning (SSL) as a
-          source of verifiable rewards for improving audio understanding and reasoning task performance.
-          Audio-R1 uses answers automatically determined during the construction of self-supervised tasks to
-          verify model responses and compute rewards.
-        </p>
-        <p>
-          Experiments across multiple LALMs and diverse audio benchmarks show consistent performance gains, while
-          ablations demonstrate the benefits of individual SSL tasks and further improvements from joint training.
-          While both supervised fine-tuning (SFT) and Audio-R1 improve SSL task accuracy, Audio-R1 further improves
-          performance on downstream tasks distinct from the SSL training tasks. These results highlight the
-          potential of RL post-training with self-supervised audio tasks to improve downstream performance and
-          reasoning-trace quality.
+          Reasoning is increasingly important for large audio-language models (LALMs), yet remains relatively underexplored compared with text-only and vision-language models.
+          We introduce <b>Audio-R1</b>, a reinforcement learning (RL) post-training framework that revisits audio self-supervised learning as a source of verifiable rewards for improving audio understanding and reasoning task performance.
+          Audio-R1 uses answers automatically determined during the construction of self-supervised tasks to verify model responses and compute rewards.
+          Experiments across multiple LALMs and diverse audio benchmarks show consistent performance gains, while ablations demonstrate the benefits of each self-supervised task and additional gains from joint training.
+          While both supervised fine-tuning and Audio-R1 improve self-supervised task accuracy, Audio-R1 further improves performance on downstream tasks distinct from the training tasks.
+          These results highlight the potential of RL post-training with self-supervised audio tasks to improve downstream performance and reasoning-trace quality.
         </p>
       </div>
     </div>
