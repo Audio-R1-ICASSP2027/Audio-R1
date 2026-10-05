@@ -20,15 +20,34 @@ TASKS = {
     "ordering": ("MMAU_temporal_ssl_3seg", "mmau_temporal_ssl_3seg.jsonl"),
 }
 
-# (task, source-id prefix). Chosen by simple signal checks (speech activity >= 70% in every clip,
-# level >= -30 dBFS, no clipping, no long pauses), all from MMAU's synthetic subset.
+# (task, source-id prefix). Chosen by simple signal checks on every clip (speech activity >= 60%,
+# level >= -32 dBFS, no clipping, no pause > 0.8 s), all from MMAU's synthetic subset; 8 per task,
+# at most 3 sharing the same answer.
 PICKS = [
     ("identity", "9b7323cf"),
+    ("identity", "e4db0e63"),
+    ("identity", "ed934345"),
     ("identity", "a6f1c137"),
+    ("identity", "18fd5726"),
+    ("identity", "aba65a16"),
+    ("identity", "86cd240d"),
+    ("identity", "98f8b556"),
     ("inpainting", "7235d35a"),
     ("inpainting", "38dbb2bf"),
+    ("inpainting", "f4d842a3"),
+    ("inpainting", "6d3e431a"),
+    ("inpainting", "976cd4b0"),
+    ("inpainting", "12ea6970"),
+    ("inpainting", "9685984a"),
+    ("inpainting", "daa1f53f"),
+    ("ordering", "e4db0e63"),
     ("ordering", "b4180fa8"),
+    ("ordering", "cde380fe"),
     ("ordering", "aac87e2d"),
+    ("ordering", "ea8a2fc9"),
+    ("ordering", "38dbb2bf"),
+    ("ordering", "06483ca8"),
+    ("ordering", "24d64f05"),
 ]
 
 IDENTITY_TEXT = {
