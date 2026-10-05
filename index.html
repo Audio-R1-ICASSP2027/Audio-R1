@@ -245,12 +245,17 @@
       transition: all 0.3s ease;
     }
 
-    .feature-card:hover {
+    .feature-card[data-task] { cursor: pointer; }
+
+    .feature-card:hover,
+    .feature-card.active {
       transform: translateY(-5px);
       box-shadow: 0 4px 16px rgba(52, 88, 142, 0.15);
       border-color: var(--primary);
     }
 
+    .feature-card.active { background: #ffffff; border-width: 2px; padding: 29px; }
+    .feature-card:focus-visible { outline: 3px solid rgba(52, 88, 142, 0.4); outline-offset: 2px; }
     .feature-card h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.3em; }
     .feature-card p { color: var(--body); line-height: 1.8; }
 
@@ -396,24 +401,6 @@
       margin-top: 40px;
     }
 
-    .task-tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; }
-
-    .task-tab {
-      padding: 10px 22px;
-      border-radius: 50px;
-      border: 2px solid var(--primary);
-      background: #ffffff;
-      color: var(--primary);
-      font-size: 0.95em;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: inherit;
-    }
-
-    .task-tab:hover { background: rgba(52, 88, 142, 0.08); }
-    .task-tab.active { background: var(--primary); color: #ffffff; box-shadow: 0 2px 8px rgba(52, 88, 142, 0.3); }
-
     .demo-nav { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 25px; }
 
     .demo-nav-btn {
@@ -505,7 +492,6 @@
       .demo-body { grid-template-columns: 1fr; gap: 16px; }
       .demo-card { padding: 16px; }
       .audio-label { flex-basis: 78px; font-size: 0.85em; }
-      .task-tab { padding: 8px 14px; font-size: 0.88em; }
       header { padding: 40px 16px 30px; }
       h1 { font-size: 1.8em; }
       .content { padding: 40px 16px; }
@@ -601,18 +587,18 @@
         </p>
       </div>
 
-      <div class="feature-grid">
-        <div class="feature-card">
+      <div class="feature-grid" role="tablist" aria-label="Demo task">
+        <div class="feature-card" data-task="identity" role="tab" tabindex="0">
           <h3>🎯 Identity Detection</h3>
           <p>Given an anchor clip and candidate clips, decide which candidates come from the
           same source recording as the anchor.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card" data-task="inpainting" role="tab" tabindex="0">
           <h3>🧩 Region Inpainting</h3>
           <p>A segment is removed from a clip; the model picks the candidate segment that fills
           the gap, using surrounding context and acoustic continuity.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature-card" data-task="ordering" role="tab" tabindex="0">
           <h3>⏱️ Temporal Ordering</h3>
           <p>Segments cut from one continuous recording are shuffled; the model recovers their
           original chronological order.</p>
@@ -620,12 +606,6 @@
       </div>
 
       <div class="demo-panel">
-        <div class="task-tabs" id="taskTabs">
-          <button class="task-tab" data-task="identity">🎯 Identity Detection</button>
-          <button class="task-tab" data-task="inpainting">🧩 Region Inpainting</button>
-          <button class="task-tab" data-task="ordering">⏱️ Temporal Ordering</button>
-        </div>
-
         <div class="demo-nav">
           <button class="demo-nav-btn" id="demoPrev">‹ Previous</button>
           <span class="demo-counter" id="demoCounter">Example 1 / 1</span>
@@ -779,7 +759,11 @@
     const list = byTask(state.task);
     const d = list[state.idx];
 
-    document.querySelectorAll(".task-tab").forEach((b) => b.classList.toggle("active", b.dataset.task === state.task));
+    document.querySelectorAll(".feature-card[data-task]").forEach((c) => {
+      const on = c.dataset.task === state.task;
+      c.classList.toggle("active", on);
+      c.setAttribute("aria-selected", on);
+    });
     $("demoCounter").textContent = `Example ${state.idx + 1} / ${list.length}`;
     $("demoPrev").disabled = state.idx === 0;
     $("demoNext").disabled = state.idx === list.length - 1;
@@ -811,8 +795,11 @@
     });
   }
 
-  document.querySelectorAll(".task-tab").forEach((b) =>
-    b.addEventListener("click", () => { state.task = b.dataset.task; state.idx = 0; render(); }));
+  document.querySelectorAll(".feature-card[data-task]").forEach((c) => {
+    const select = () => { if (state.task !== c.dataset.task) { state.task = c.dataset.task; state.idx = 0; render(); } };
+    c.addEventListener("click", select);
+    c.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(); } });
+  });
   $("demoPrev").addEventListener("click", () => { state.idx--; render(); });
   $("demoNext").addEventListener("click", () => { state.idx++; render(); });
   window.addEventListener("resize", () => players.forEach(drawWave));
