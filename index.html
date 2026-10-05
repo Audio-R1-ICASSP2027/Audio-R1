@@ -120,23 +120,7 @@
       box-shadow: 0 2px 8px rgba(52, 88, 142, 0.3);
     }
 
-    .keywords {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin: 25px 0;
-      flex-wrap: wrap;
-    }
 
-    .keyword-tag {
-      background: var(--soft);
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 0.9em;
-      font-weight: 500;
-      border: 1px solid var(--border);
-      color: var(--body);
-    }
 
     .buttons {
       display: flex;
@@ -479,7 +463,8 @@
     .seg-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
 
     .wave-badge {
-      flex: 0 0 auto;
+      flex: 0 0 76px;
+      text-align: center;
       font-size: 0.75em;
       font-weight: 700;
       padding: 3px 9px;
@@ -488,12 +473,12 @@
     }
     .wave-badge.same { background: rgba(52, 88, 142, 0.12); color: var(--primary); }
     .wave-badge.diff { background: #edf2f7; color: var(--muted); }
+    .wave-badge.empty { visibility: hidden; }
 
     .seq-row { margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--border); }
     .seq-track { display: flex; align-items: center; gap: 4px; }
     .seq-track .wave { flex: 1; width: auto; min-width: 0; }
     .seq-arrow { flex: 0 0 auto; color: var(--muted); font-weight: 700; font-size: 0.9em; }
-    .seq-note { color: var(--muted); font-size: 0.85em; margin: 2px 0 0 144px; }
 
     .demo-hint { color: var(--muted); font-size: 0.85em; margin-top: 14px; }
     .demo-question { color: var(--heading); font-weight: 600; line-height: 1.6; margin-bottom: 15px; }
@@ -526,7 +511,6 @@
       .demo-body { grid-template-columns: 1fr; gap: 16px; }
       .demo-card { padding: 16px; }
       .audio-label { flex-basis: 78px; font-size: 0.85em; }
-      .seq-note { margin-left: 0; }
       header { padding: 40px 16px 30px; }
       h1 { font-size: 1.8em; }
       .content { padding: 40px 16px; }
@@ -568,13 +552,6 @@
     </div>
 
     <div class="conference-tag">ICASSP 2027 (under review)</div>
-
-    <div class="keywords">
-      <span class="keyword-tag">Large Audio-Language Models</span>
-      <span class="keyword-tag">Audio Reasoning</span>
-      <span class="keyword-tag">Reinforcement Learning</span>
-      <span class="keyword-tag">Self-Supervised Learning</span>
-    </div>
 
     <div class="buttons">
       <a href="#" class="btn">📑 arXiv</a>
@@ -882,10 +859,6 @@
       const r = p.canvas.getBoundingClientRect();
       chain(i, (e.clientX - r.left) / r.width);
     }));
-    const note = document.createElement("p");
-    note.className = "seq-note";
-    note.textContent = "Segments " + d.order.join(" → ") + ", stitched back in their original order.";
-    parent.appendChild(note);
   }
 
   function render() {
@@ -907,7 +880,8 @@
     $("demoCandidates").innerHTML = "";
     if (d.task === "identity") {
       d.inputs.forEach((it, i) => {
-        if (i === 0) return audioRow($("demoInputs"), it, { color: COLORS.blue, dot: COLORS.blue[0] });
+        // empty badge slot keeps the anchor waveform the same length as the candidates'
+        if (i === 0) return audioRow($("demoInputs"), it, { color: COLORS.blue, dot: COLORS.blue[0], badge: { cls: "empty", text: "" } });
         const same = d.same[i - 1];
         audioRow($("demoInputs"), it, same
           ? { color: COLORS.blue, dot: COLORS.blue[0], badge: { cls: "same", text: "= Anchor" } }
