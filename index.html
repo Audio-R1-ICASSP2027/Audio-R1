@@ -498,44 +498,12 @@
 
     .opt-tag { font-size: 0.75em; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
     .opt-tag.gt { background: #38a169; color: #ffffff; }
-    .opt-tag.base { background: #fed7d7; color: #c53030; }
-    .opt-tag.r1 { background: rgba(52, 88, 142, 0.12); color: var(--primary); }
-
-    .reasoning-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 25px; }
-
-    .reasoning-card {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 22px 24px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      border-top: 4px solid #cbd5e0;
-      min-width: 0;
-    }
-
-    .reasoning-card.r1 { border-top-color: var(--primary); }
-    .reasoning-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-    .reasoning-model { font-weight: 700; color: var(--heading); }
-    .reasoning-card.r1 .reasoning-model { color: var(--primary); }
-    .reasoning-sub { font-weight: 400; color: var(--muted); font-size: 0.9em; }
-
-    .answer-badge { font-size: 0.85em; font-weight: 700; padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
-    .answer-badge.wrong { background: #fed7d7; color: #c53030; }
-    .answer-badge.right { background: #c6f6d5; color: #276749; }
-
-    .reasoning-text {
-      white-space: pre-wrap;
-      color: var(--body);
-      font-size: 0.92em;
-      line-height: 1.7;
-      max-height: 320px;
-      overflow-y: auto;
-    }
 
     @media (max-width: 768px) {
       body { padding: 0; }
       .demo-panel { padding: 20px 12px; }
-      .demo-body, .reasoning-grid { grid-template-columns: 1fr; gap: 16px; }
-      .demo-card, .reasoning-card { padding: 16px; }
+      .demo-body { grid-template-columns: 1fr; gap: 16px; }
+      .demo-card { padding: 16px; }
       .audio-label { flex-basis: 78px; font-size: 0.85em; }
       .task-tab { padding: 8px 14px; font-size: 0.88em; }
       header { padding: 40px 16px 30px; }
@@ -681,28 +649,10 @@
           </div>
         </div>
 
-        <div class="reasoning-grid">
-          <div class="reasoning-card base">
-            <div class="reasoning-head">
-              <span class="reasoning-model">Qwen2.5-Omni <span class="reasoning-sub">(base)</span></span>
-              <span class="answer-badge wrong" id="baseBadge"></span>
-            </div>
-            <p class="reasoning-text" id="baseThink"></p>
-          </div>
-          <div class="reasoning-card r1">
-            <div class="reasoning-head">
-              <span class="reasoning-model">Audio-R1 <span class="reasoning-sub">(Qwen2.5-Omni)</span></span>
-              <span class="answer-badge right" id="r1Badge"></span>
-            </div>
-            <p class="reasoning-text" id="r1Think"></p>
-          </div>
-        </div>
-
         <p class="image-caption">
           Task answers are determined during construction from the source-recording identity, the removed audio
-          segment, or the original segment order. Shown are in-domain test items (built from MMAU-mini synthetic
-          recordings) on which the base model answers incorrectly and Audio-R1 answers correctly; reasoning traces are
-          unedited model outputs.
+          segment, or the original segment order. Examples are drawn from our in-domain test sets, built from
+          MMAU-mini recordings.
         </p>
       </div>
     </div>
@@ -856,21 +806,9 @@
       tags.className = "opt-tags";
       const tag = (cls, t) => { const s = document.createElement("span"); s.className = "opt-tag " + cls; s.textContent = t; tags.appendChild(s); };
       if (k === d.answer) tag("gt", "✓ Answer");
-      if (k === d.base.answer) tag("base", "Base");
-      if (k === d.r1.answer) tag("r1", "Audio-R1");
       li.append(letter, text, tags);
       ul.appendChild(li);
     });
-
-    const badge = (el, a) => {
-      const ok = a === d.answer;
-      el.className = "answer-badge " + (ok ? "right" : "wrong");
-      el.textContent = `Answer: ${a || "—"} ${ok ? "✓" : "✗"}`;
-    };
-    badge($("baseBadge"), d.base.answer);
-    badge($("r1Badge"), d.r1.answer);
-    $("baseThink").textContent = d.base.think;
-    $("r1Think").textContent = d.r1.think;
   }
 
   document.querySelectorAll(".task-tab").forEach((b) =>

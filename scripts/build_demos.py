@@ -1,14 +1,12 @@
 """Build the Demo section data for the project page.
 
-Picks a few SSL-task test items (Qwen2.5-Omni base vs. Audio-R1 = exp10_t3, the pairing used in
-the paper's RQ3 figure), converts their audio to MP3 under static/audio/demo/, and writes
-static/js/demos.js (window.DEMOS = [...]).
+Picks a few SSL-task test items with clean, speech-rich audio, converts their audio to MP3 under
+static/audio/demo/, and writes static/js/demos.js (window.DEMOS = [...]).
 
 Usage: python scripts/build_demos.py
 """
 import json
 import os
-import re
 import subprocess
 
 BENCH = "/lustre09/project/6080535/jihoojo3/SSL-R1/benchmarks"
@@ -16,22 +14,21 @@ SITE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 AUDIO_OUT = os.path.join(SITE, "static", "audio", "demo")
 JS_OUT = os.path.join(SITE, "static", "js", "demos.js")
 
-BASE_STEM = "qwen2.5_omni_{k}"
-R1_STEM = "qwen2.5_omni_exp10_t3_{k}"
-
 TASKS = {
-    "identity": ("MMAU_temporal_ssl_identity_v2", "identity_v2_ssl_eval", "mmau_identity_v2_ssl.jsonl"),
-    "inpainting": ("MMAU_temporal_ssl_inpainting", "inpainting_ssl_eval", "mmau_inpainting_ssl.jsonl"),
-    "ordering": ("MMAU_temporal_ssl_3seg", "temporal_ssl_eval", "mmau_temporal_ssl_3seg.jsonl"),
+    "identity": ("MMAU_temporal_ssl_identity_v2", "mmau_identity_v2_ssl.jsonl"),
+    "inpainting": ("MMAU_temporal_ssl_inpainting", "mmau_inpainting_ssl.jsonl"),
+    "ordering": ("MMAU_temporal_ssl_3seg", "mmau_temporal_ssl_3seg.jsonl"),
 }
 
-# (task, source-id prefix). All audio in these items comes from MMAU's synthetic subset.
+# (task, source-id prefix). Chosen by simple signal checks (speech activity >= 70% in every clip,
+# level >= -30 dBFS, no clipping, no long pauses), all from MMAU's synthetic subset.
 PICKS = [
-    ("identity", "5fd6b3fc"),
-    ("identity", "ff8ea71a"),
-    ("inpainting", "8b4ac0fd"),
+    ("identity", "9b7323cf"),
+    ("identity", "a6f1c137"),
+    ("inpainting", "7235d35a"),
+    ("inpainting", "38dbb2bf"),
+    ("ordering", "b4180fa8"),
     ("ordering", "aac87e2d"),
-    ("ordering", "9439b65d"),
 ]
 
 IDENTITY_TEXT = {
@@ -40,16 +37,6 @@ IDENTITY_TEXT = {
     "both_same": "Both candidates are the same recording",
     "both_diff": "Neither candidate is the same recording",
 }
-
-
-def answer_letter(pred):
-    m = re.findall(r"<answer>\s*\(?([A-D])", pred or "")
-    return m[-1] if m else None
-
-
-def think_text(pred):
-    m = re.search(r"<think>(.*?)</think>", pred or "", re.S)
-    return (m.group(1) if m else pred or "").strip()
 
 
 def to_mp3(src, name):
@@ -68,10 +55,8 @@ def main():
     os.makedirs(AUDIO_OUT, exist_ok=True)
     demos = []
     for task, pid in PICKS:
-        folder, key, qfile = TASKS[task]
+        folder, qfile = TASKS[task]
         q = load_by_prefix(os.path.join(BENCH, folder, "question", qfile), jsonl=True)[pid]
-        base = load_by_prefix(os.path.join(BENCH, folder, "results", BASE_STEM.format(k=key) + ".json"))[pid]
-        r1 = load_by_prefix(os.path.join(BENCH, folder, "results", R1_STEM.format(k=key) + ".json"))[pid]
         adir = os.path.join(BENCH, folder, "audio")
         tag = f"{task}_{pid}"
 
@@ -102,10 +87,6 @@ def main():
                            for lab, f in candidates],
             "options": options,
             "answer": q["answer_gt"],
-            "base": {"answer": answer_letter(base["model_prediction"]),
-                     "think": think_text(base["model_prediction"])},
-            "r1": {"answer": answer_letter(r1["model_prediction"]),
-                   "think": think_text(r1["model_prediction"])},
         })
 
     with open(JS_OUT, "w") as f:
