@@ -28,141 +28,6 @@ window.DEMOS = [
     "answer": "D"
   },
   {
-    "id": "identity_e4db0e63",
-    "task": "identity",
-    "question": "Which candidates are the same recording as the anchor?",
-    "inputs": [
-      {
-        "label": "Anchor",
-        "src": "static/audio/demo/identity_e4db0e63_0.mp3"
-      },
-      {
-        "label": "Candidate 1",
-        "src": "static/audio/demo/identity_e4db0e63_1.mp3"
-      },
-      {
-        "label": "Candidate 2",
-        "src": "static/audio/demo/identity_e4db0e63_2.mp3"
-      }
-    ],
-    "candidates": [],
-    "options": {
-      "A": "Neither candidate is the same recording",
-      "B": "Both candidates are the same recording",
-      "C": "Only Candidate 1 is the same recording",
-      "D": "Only Candidate 2 is the same recording"
-    },
-    "answer": "B"
-  },
-  {
-    "id": "identity_ed934345",
-    "task": "identity",
-    "question": "Which candidates are the same recording as the anchor?",
-    "inputs": [
-      {
-        "label": "Anchor",
-        "src": "static/audio/demo/identity_ed934345_0.mp3"
-      },
-      {
-        "label": "Candidate 1",
-        "src": "static/audio/demo/identity_ed934345_1.mp3"
-      },
-      {
-        "label": "Candidate 2",
-        "src": "static/audio/demo/identity_ed934345_2.mp3"
-      }
-    ],
-    "candidates": [],
-    "options": {
-      "A": "Only Candidate 2 is the same recording",
-      "B": "Only Candidate 1 is the same recording",
-      "C": "Both candidates are the same recording",
-      "D": "Neither candidate is the same recording"
-    },
-    "answer": "C"
-  },
-  {
-    "id": "identity_a6f1c137",
-    "task": "identity",
-    "question": "Which candidates are the same recording as the anchor?",
-    "inputs": [
-      {
-        "label": "Anchor",
-        "src": "static/audio/demo/identity_a6f1c137_0.mp3"
-      },
-      {
-        "label": "Candidate 1",
-        "src": "static/audio/demo/identity_a6f1c137_1.mp3"
-      },
-      {
-        "label": "Candidate 2",
-        "src": "static/audio/demo/identity_a6f1c137_2.mp3"
-      }
-    ],
-    "candidates": [],
-    "options": {
-      "A": "Both candidates are the same recording",
-      "B": "Only Candidate 2 is the same recording",
-      "C": "Neither candidate is the same recording",
-      "D": "Only Candidate 1 is the same recording"
-    },
-    "answer": "D"
-  },
-  {
-    "id": "identity_18fd5726",
-    "task": "identity",
-    "question": "Which candidates are the same recording as the anchor?",
-    "inputs": [
-      {
-        "label": "Anchor",
-        "src": "static/audio/demo/identity_18fd5726_0.mp3"
-      },
-      {
-        "label": "Candidate 1",
-        "src": "static/audio/demo/identity_18fd5726_1.mp3"
-      },
-      {
-        "label": "Candidate 2",
-        "src": "static/audio/demo/identity_18fd5726_2.mp3"
-      }
-    ],
-    "candidates": [],
-    "options": {
-      "A": "Only Candidate 1 is the same recording",
-      "B": "Only Candidate 2 is the same recording",
-      "C": "Neither candidate is the same recording",
-      "D": "Both candidates are the same recording"
-    },
-    "answer": "A"
-  },
-  {
-    "id": "identity_aba65a16",
-    "task": "identity",
-    "question": "Which candidates are the same recording as the anchor?",
-    "inputs": [
-      {
-        "label": "Anchor",
-        "src": "static/audio/demo/identity_aba65a16_0.mp3"
-      },
-      {
-        "label": "Candidate 1",
-        "src": "static/audio/demo/identity_aba65a16_1.mp3"
-      },
-      {
-        "label": "Candidate 2",
-        "src": "static/audio/demo/identity_aba65a16_2.mp3"
-      }
-    ],
-    "candidates": [],
-    "options": {
-      "A": "Neither candidate is the same recording",
-      "B": "Both candidates are the same recording",
-      "C": "Only Candidate 1 is the same recording",
-      "D": "Only Candidate 2 is the same recording"
-    },
-    "answer": "D"
-  },
-  {
     "id": "identity_86cd240d",
     "task": "identity",
     "question": "Which candidates are the same recording as the anchor?",
@@ -217,31 +82,186 @@ window.DEMOS = [
     "answer": "B"
   },
   {
+    "id": "identity_a6f1c137",
+    "task": "identity",
+    "question": "Which candidates are the same recording as the anchor?",
+    "inputs": [
+      {
+        "label": "Anchor",
+        "src": "static/audio/demo/identity_a6f1c137_0.mp3"
+      },
+      {
+        "label": "Candidate 1",
+        "src": "static/audio/demo/identity_a6f1c137_1.mp3"
+      },
+      {
+        "label": "Candidate 2",
+        "src": "static/audio/demo/identity_a6f1c137_2.mp3"
+      }
+    ],
+    "candidates": [],
+    "options": {
+      "A": "Both candidates are the same recording",
+      "B": "Only Candidate 2 is the same recording",
+      "C": "Neither candidate is the same recording",
+      "D": "Only Candidate 1 is the same recording"
+    },
+    "answer": "D"
+  },
+  {
+    "id": "identity_ed934345",
+    "task": "identity",
+    "question": "Which candidates are the same recording as the anchor?",
+    "inputs": [
+      {
+        "label": "Anchor",
+        "src": "static/audio/demo/identity_ed934345_0.mp3"
+      },
+      {
+        "label": "Candidate 1",
+        "src": "static/audio/demo/identity_ed934345_1.mp3"
+      },
+      {
+        "label": "Candidate 2",
+        "src": "static/audio/demo/identity_ed934345_2.mp3"
+      }
+    ],
+    "candidates": [],
+    "options": {
+      "A": "Only Candidate 2 is the same recording",
+      "B": "Only Candidate 1 is the same recording",
+      "C": "Both candidates are the same recording",
+      "D": "Neither candidate is the same recording"
+    },
+    "answer": "C"
+  },
+  {
+    "id": "identity_aba65a16",
+    "task": "identity",
+    "question": "Which candidates are the same recording as the anchor?",
+    "inputs": [
+      {
+        "label": "Anchor",
+        "src": "static/audio/demo/identity_aba65a16_0.mp3"
+      },
+      {
+        "label": "Candidate 1",
+        "src": "static/audio/demo/identity_aba65a16_1.mp3"
+      },
+      {
+        "label": "Candidate 2",
+        "src": "static/audio/demo/identity_aba65a16_2.mp3"
+      }
+    ],
+    "candidates": [],
+    "options": {
+      "A": "Neither candidate is the same recording",
+      "B": "Both candidates are the same recording",
+      "C": "Only Candidate 1 is the same recording",
+      "D": "Only Candidate 2 is the same recording"
+    },
+    "answer": "D"
+  },
+  {
+    "id": "identity_18fd5726",
+    "task": "identity",
+    "question": "Which candidates are the same recording as the anchor?",
+    "inputs": [
+      {
+        "label": "Anchor",
+        "src": "static/audio/demo/identity_18fd5726_0.mp3"
+      },
+      {
+        "label": "Candidate 1",
+        "src": "static/audio/demo/identity_18fd5726_1.mp3"
+      },
+      {
+        "label": "Candidate 2",
+        "src": "static/audio/demo/identity_18fd5726_2.mp3"
+      }
+    ],
+    "candidates": [],
+    "options": {
+      "A": "Only Candidate 1 is the same recording",
+      "B": "Only Candidate 2 is the same recording",
+      "C": "Neither candidate is the same recording",
+      "D": "Both candidates are the same recording"
+    },
+    "answer": "A"
+  },
+  {
+    "id": "identity_e4db0e63",
+    "task": "identity",
+    "question": "Which candidates are the same recording as the anchor?",
+    "inputs": [
+      {
+        "label": "Anchor",
+        "src": "static/audio/demo/identity_e4db0e63_0.mp3"
+      },
+      {
+        "label": "Candidate 1",
+        "src": "static/audio/demo/identity_e4db0e63_1.mp3"
+      },
+      {
+        "label": "Candidate 2",
+        "src": "static/audio/demo/identity_e4db0e63_2.mp3"
+      }
+    ],
+    "candidates": [],
+    "options": {
+      "A": "Neither candidate is the same recording",
+      "B": "Both candidates are the same recording",
+      "C": "Only Candidate 1 is the same recording",
+      "D": "Only Candidate 2 is the same recording"
+    },
+    "answer": "B"
+  },
+  {
     "id": "inpainting_7235d35a",
     "task": "inpainting",
     "question": "Which candidate fills the silent gap in the clip?",
     "inputs": [
       {
         "label": "Masked clip",
-        "src": "static/audio/demo/inpainting_7235d35a_0.mp3"
+        "src": "static/audio/demo/inpainting_7235d35a_0.mp3",
+        "gap": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "candidates": [
       {
         "label": "A",
-        "src": "static/audio/demo/inpainting_7235d35a_candA.mp3"
+        "src": "static/audio/demo/inpainting_7235d35a_candA.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "B",
-        "src": "static/audio/demo/inpainting_7235d35a_candB.mp3"
+        "src": "static/audio/demo/inpainting_7235d35a_candB.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "C",
-        "src": "static/audio/demo/inpainting_7235d35a_candC.mp3"
+        "src": "static/audio/demo/inpainting_7235d35a_candC.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "D",
-        "src": "static/audio/demo/inpainting_7235d35a_candD.mp3"
+        "src": "static/audio/demo/inpainting_7235d35a_candD.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "options": {
@@ -259,25 +279,45 @@ window.DEMOS = [
     "inputs": [
       {
         "label": "Masked clip",
-        "src": "static/audio/demo/inpainting_38dbb2bf_0.mp3"
+        "src": "static/audio/demo/inpainting_38dbb2bf_0.mp3",
+        "gap": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "candidates": [
       {
         "label": "A",
-        "src": "static/audio/demo/inpainting_38dbb2bf_candA.mp3"
+        "src": "static/audio/demo/inpainting_38dbb2bf_candA.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "B",
-        "src": "static/audio/demo/inpainting_38dbb2bf_candB.mp3"
+        "src": "static/audio/demo/inpainting_38dbb2bf_candB.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "C",
-        "src": "static/audio/demo/inpainting_38dbb2bf_candC.mp3"
+        "src": "static/audio/demo/inpainting_38dbb2bf_candC.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "D",
-        "src": "static/audio/demo/inpainting_38dbb2bf_candD.mp3"
+        "src": "static/audio/demo/inpainting_38dbb2bf_candD.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "options": {
@@ -289,103 +329,51 @@ window.DEMOS = [
     "answer": "C"
   },
   {
-    "id": "inpainting_f4d842a3",
-    "task": "inpainting",
-    "question": "Which candidate fills the silent gap in the clip?",
-    "inputs": [
-      {
-        "label": "Masked clip",
-        "src": "static/audio/demo/inpainting_f4d842a3_0.mp3"
-      }
-    ],
-    "candidates": [
-      {
-        "label": "A",
-        "src": "static/audio/demo/inpainting_f4d842a3_candA.mp3"
-      },
-      {
-        "label": "B",
-        "src": "static/audio/demo/inpainting_f4d842a3_candB.mp3"
-      },
-      {
-        "label": "C",
-        "src": "static/audio/demo/inpainting_f4d842a3_candC.mp3"
-      },
-      {
-        "label": "D",
-        "src": "static/audio/demo/inpainting_f4d842a3_candD.mp3"
-      }
-    ],
-    "options": {
-      "A": "Candidate A",
-      "B": "Candidate B",
-      "C": "Candidate C",
-      "D": "Candidate D"
-    },
-    "answer": "B"
-  },
-  {
     "id": "inpainting_6d3e431a",
     "task": "inpainting",
     "question": "Which candidate fills the silent gap in the clip?",
     "inputs": [
       {
         "label": "Masked clip",
-        "src": "static/audio/demo/inpainting_6d3e431a_0.mp3"
+        "src": "static/audio/demo/inpainting_6d3e431a_0.mp3",
+        "gap": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "candidates": [
       {
         "label": "A",
-        "src": "static/audio/demo/inpainting_6d3e431a_candA.mp3"
+        "src": "static/audio/demo/inpainting_6d3e431a_candA.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "B",
-        "src": "static/audio/demo/inpainting_6d3e431a_candB.mp3"
+        "src": "static/audio/demo/inpainting_6d3e431a_candB.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "C",
-        "src": "static/audio/demo/inpainting_6d3e431a_candC.mp3"
+        "src": "static/audio/demo/inpainting_6d3e431a_candC.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "D",
-        "src": "static/audio/demo/inpainting_6d3e431a_candD.mp3"
-      }
-    ],
-    "options": {
-      "A": "Candidate A",
-      "B": "Candidate B",
-      "C": "Candidate C",
-      "D": "Candidate D"
-    },
-    "answer": "A"
-  },
-  {
-    "id": "inpainting_976cd4b0",
-    "task": "inpainting",
-    "question": "Which candidate fills the silent gap in the clip?",
-    "inputs": [
-      {
-        "label": "Masked clip",
-        "src": "static/audio/demo/inpainting_976cd4b0_0.mp3"
-      }
-    ],
-    "candidates": [
-      {
-        "label": "A",
-        "src": "static/audio/demo/inpainting_976cd4b0_candA.mp3"
-      },
-      {
-        "label": "B",
-        "src": "static/audio/demo/inpainting_976cd4b0_candB.mp3"
-      },
-      {
-        "label": "C",
-        "src": "static/audio/demo/inpainting_976cd4b0_candC.mp3"
-      },
-      {
-        "label": "D",
-        "src": "static/audio/demo/inpainting_976cd4b0_candD.mp3"
+        "src": "static/audio/demo/inpainting_6d3e431a_candD.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "options": {
@@ -403,25 +391,45 @@ window.DEMOS = [
     "inputs": [
       {
         "label": "Masked clip",
-        "src": "static/audio/demo/inpainting_12ea6970_0.mp3"
+        "src": "static/audio/demo/inpainting_12ea6970_0.mp3",
+        "gap": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "candidates": [
       {
         "label": "A",
-        "src": "static/audio/demo/inpainting_12ea6970_candA.mp3"
+        "src": "static/audio/demo/inpainting_12ea6970_candA.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "B",
-        "src": "static/audio/demo/inpainting_12ea6970_candB.mp3"
+        "src": "static/audio/demo/inpainting_12ea6970_candB.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "C",
-        "src": "static/audio/demo/inpainting_12ea6970_candC.mp3"
+        "src": "static/audio/demo/inpainting_12ea6970_candC.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "D",
-        "src": "static/audio/demo/inpainting_12ea6970_candD.mp3"
+        "src": "static/audio/demo/inpainting_12ea6970_candD.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "options": {
@@ -433,31 +441,107 @@ window.DEMOS = [
     "answer": "D"
   },
   {
+    "id": "inpainting_f4d842a3",
+    "task": "inpainting",
+    "question": "Which candidate fills the silent gap in the clip?",
+    "inputs": [
+      {
+        "label": "Masked clip",
+        "src": "static/audio/demo/inpainting_f4d842a3_0.mp3",
+        "gap": [
+          0.3333,
+          0.3333
+        ]
+      }
+    ],
+    "candidates": [
+      {
+        "label": "A",
+        "src": "static/audio/demo/inpainting_f4d842a3_candA.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
+      },
+      {
+        "label": "B",
+        "src": "static/audio/demo/inpainting_f4d842a3_candB.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
+      },
+      {
+        "label": "C",
+        "src": "static/audio/demo/inpainting_f4d842a3_candC.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
+      },
+      {
+        "label": "D",
+        "src": "static/audio/demo/inpainting_f4d842a3_candD.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
+      }
+    ],
+    "options": {
+      "A": "Candidate A",
+      "B": "Candidate B",
+      "C": "Candidate C",
+      "D": "Candidate D"
+    },
+    "answer": "B"
+  },
+  {
     "id": "inpainting_9685984a",
     "task": "inpainting",
     "question": "Which candidate fills the silent gap in the clip?",
     "inputs": [
       {
         "label": "Masked clip",
-        "src": "static/audio/demo/inpainting_9685984a_0.mp3"
+        "src": "static/audio/demo/inpainting_9685984a_0.mp3",
+        "gap": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "candidates": [
       {
         "label": "A",
-        "src": "static/audio/demo/inpainting_9685984a_candA.mp3"
+        "src": "static/audio/demo/inpainting_9685984a_candA.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "B",
-        "src": "static/audio/demo/inpainting_9685984a_candB.mp3"
+        "src": "static/audio/demo/inpainting_9685984a_candB.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "C",
-        "src": "static/audio/demo/inpainting_9685984a_candC.mp3"
+        "src": "static/audio/demo/inpainting_9685984a_candC.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "D",
-        "src": "static/audio/demo/inpainting_9685984a_candD.mp3"
+        "src": "static/audio/demo/inpainting_9685984a_candD.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "options": {
@@ -469,31 +553,107 @@ window.DEMOS = [
     "answer": "C"
   },
   {
+    "id": "inpainting_976cd4b0",
+    "task": "inpainting",
+    "question": "Which candidate fills the silent gap in the clip?",
+    "inputs": [
+      {
+        "label": "Masked clip",
+        "src": "static/audio/demo/inpainting_976cd4b0_0.mp3",
+        "gap": [
+          0.3333,
+          0.3333
+        ]
+      }
+    ],
+    "candidates": [
+      {
+        "label": "A",
+        "src": "static/audio/demo/inpainting_976cd4b0_candA.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
+      },
+      {
+        "label": "B",
+        "src": "static/audio/demo/inpainting_976cd4b0_candB.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
+      },
+      {
+        "label": "C",
+        "src": "static/audio/demo/inpainting_976cd4b0_candC.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
+      },
+      {
+        "label": "D",
+        "src": "static/audio/demo/inpainting_976cd4b0_candD.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
+      }
+    ],
+    "options": {
+      "A": "Candidate A",
+      "B": "Candidate B",
+      "C": "Candidate C",
+      "D": "Candidate D"
+    },
+    "answer": "A"
+  },
+  {
     "id": "inpainting_daa1f53f",
     "task": "inpainting",
     "question": "Which candidate fills the silent gap in the clip?",
     "inputs": [
       {
         "label": "Masked clip",
-        "src": "static/audio/demo/inpainting_daa1f53f_0.mp3"
+        "src": "static/audio/demo/inpainting_daa1f53f_0.mp3",
+        "gap": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "candidates": [
       {
         "label": "A",
-        "src": "static/audio/demo/inpainting_daa1f53f_candA.mp3"
+        "src": "static/audio/demo/inpainting_daa1f53f_candA.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "B",
-        "src": "static/audio/demo/inpainting_daa1f53f_candB.mp3"
+        "src": "static/audio/demo/inpainting_daa1f53f_candB.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "C",
-        "src": "static/audio/demo/inpainting_daa1f53f_candC.mp3"
+        "src": "static/audio/demo/inpainting_daa1f53f_candC.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       },
       {
         "label": "D",
-        "src": "static/audio/demo/inpainting_daa1f53f_candD.mp3"
+        "src": "static/audio/demo/inpainting_daa1f53f_candD.mp3",
+        "span": [
+          0.3333,
+          0.3333
+        ]
       }
     ],
     "options": {
@@ -532,112 +692,31 @@ window.DEMOS = [
     "answer": "B"
   },
   {
-    "id": "ordering_b4180fa8",
+    "id": "ordering_24d64f05",
     "task": "ordering",
     "question": "What is the original chronological order of the shuffled segments?",
     "inputs": [
       {
         "label": "Segment 1",
-        "src": "static/audio/demo/ordering_b4180fa8_0.mp3"
+        "src": "static/audio/demo/ordering_24d64f05_0.mp3"
       },
       {
         "label": "Segment 2",
-        "src": "static/audio/demo/ordering_b4180fa8_1.mp3"
+        "src": "static/audio/demo/ordering_24d64f05_1.mp3"
       },
       {
         "label": "Segment 3",
-        "src": "static/audio/demo/ordering_b4180fa8_2.mp3"
+        "src": "static/audio/demo/ordering_24d64f05_2.mp3"
       }
     ],
     "candidates": [],
     "options": {
-      "A": "3 → 1 → 2",
+      "A": "1 → 3 → 2",
       "B": "2 → 1 → 3",
-      "C": "1 → 2 → 3",
-      "D": "3 → 2 → 1"
-    },
-    "answer": "A"
-  },
-  {
-    "id": "ordering_cde380fe",
-    "task": "ordering",
-    "question": "What is the original chronological order of the shuffled segments?",
-    "inputs": [
-      {
-        "label": "Segment 1",
-        "src": "static/audio/demo/ordering_cde380fe_0.mp3"
-      },
-      {
-        "label": "Segment 2",
-        "src": "static/audio/demo/ordering_cde380fe_1.mp3"
-      },
-      {
-        "label": "Segment 3",
-        "src": "static/audio/demo/ordering_cde380fe_2.mp3"
-      }
-    ],
-    "candidates": [],
-    "options": {
-      "A": "3 → 2 → 1",
-      "B": "2 → 3 → 1",
-      "C": "1 → 2 → 3",
-      "D": "3 → 1 → 2"
-    },
-    "answer": "A"
-  },
-  {
-    "id": "ordering_aac87e2d",
-    "task": "ordering",
-    "question": "What is the original chronological order of the shuffled segments?",
-    "inputs": [
-      {
-        "label": "Segment 1",
-        "src": "static/audio/demo/ordering_aac87e2d_0.mp3"
-      },
-      {
-        "label": "Segment 2",
-        "src": "static/audio/demo/ordering_aac87e2d_1.mp3"
-      },
-      {
-        "label": "Segment 3",
-        "src": "static/audio/demo/ordering_aac87e2d_2.mp3"
-      }
-    ],
-    "candidates": [],
-    "options": {
-      "A": "3 → 2 → 1",
-      "B": "1 → 3 → 2",
-      "C": "2 → 3 → 1",
+      "C": "3 → 1 → 2",
       "D": "1 → 2 → 3"
     },
-    "answer": "B"
-  },
-  {
-    "id": "ordering_ea8a2fc9",
-    "task": "ordering",
-    "question": "What is the original chronological order of the shuffled segments?",
-    "inputs": [
-      {
-        "label": "Segment 1",
-        "src": "static/audio/demo/ordering_ea8a2fc9_0.mp3"
-      },
-      {
-        "label": "Segment 2",
-        "src": "static/audio/demo/ordering_ea8a2fc9_1.mp3"
-      },
-      {
-        "label": "Segment 3",
-        "src": "static/audio/demo/ordering_ea8a2fc9_2.mp3"
-      }
-    ],
-    "candidates": [],
-    "options": {
-      "A": "1 → 2 → 3",
-      "B": "3 → 1 → 2",
-      "C": "2 → 1 → 3",
-      "D": "1 → 3 → 2"
-    },
-    "answer": "B"
+    "answer": "A"
   },
   {
     "id": "ordering_38dbb2bf",
@@ -667,6 +746,60 @@ window.DEMOS = [
     "answer": "D"
   },
   {
+    "id": "ordering_ea8a2fc9",
+    "task": "ordering",
+    "question": "What is the original chronological order of the shuffled segments?",
+    "inputs": [
+      {
+        "label": "Segment 1",
+        "src": "static/audio/demo/ordering_ea8a2fc9_0.mp3"
+      },
+      {
+        "label": "Segment 2",
+        "src": "static/audio/demo/ordering_ea8a2fc9_1.mp3"
+      },
+      {
+        "label": "Segment 3",
+        "src": "static/audio/demo/ordering_ea8a2fc9_2.mp3"
+      }
+    ],
+    "candidates": [],
+    "options": {
+      "A": "1 → 2 → 3",
+      "B": "3 → 1 → 2",
+      "C": "2 → 1 → 3",
+      "D": "1 → 3 → 2"
+    },
+    "answer": "B"
+  },
+  {
+    "id": "ordering_cde380fe",
+    "task": "ordering",
+    "question": "What is the original chronological order of the shuffled segments?",
+    "inputs": [
+      {
+        "label": "Segment 1",
+        "src": "static/audio/demo/ordering_cde380fe_0.mp3"
+      },
+      {
+        "label": "Segment 2",
+        "src": "static/audio/demo/ordering_cde380fe_1.mp3"
+      },
+      {
+        "label": "Segment 3",
+        "src": "static/audio/demo/ordering_cde380fe_2.mp3"
+      }
+    ],
+    "candidates": [],
+    "options": {
+      "A": "3 → 2 → 1",
+      "B": "2 → 3 → 1",
+      "C": "1 → 2 → 3",
+      "D": "3 → 1 → 2"
+    },
+    "answer": "A"
+  },
+  {
     "id": "ordering_06483ca8",
     "task": "ordering",
     "question": "What is the original chronological order of the shuffled segments?",
@@ -694,29 +827,56 @@ window.DEMOS = [
     "answer": "D"
   },
   {
-    "id": "ordering_24d64f05",
+    "id": "ordering_aac87e2d",
     "task": "ordering",
     "question": "What is the original chronological order of the shuffled segments?",
     "inputs": [
       {
         "label": "Segment 1",
-        "src": "static/audio/demo/ordering_24d64f05_0.mp3"
+        "src": "static/audio/demo/ordering_aac87e2d_0.mp3"
       },
       {
         "label": "Segment 2",
-        "src": "static/audio/demo/ordering_24d64f05_1.mp3"
+        "src": "static/audio/demo/ordering_aac87e2d_1.mp3"
       },
       {
         "label": "Segment 3",
-        "src": "static/audio/demo/ordering_24d64f05_2.mp3"
+        "src": "static/audio/demo/ordering_aac87e2d_2.mp3"
       }
     ],
     "candidates": [],
     "options": {
-      "A": "1 → 3 → 2",
-      "B": "2 → 1 → 3",
-      "C": "3 → 1 → 2",
+      "A": "3 → 2 → 1",
+      "B": "1 → 3 → 2",
+      "C": "2 → 3 → 1",
       "D": "1 → 2 → 3"
+    },
+    "answer": "B"
+  },
+  {
+    "id": "ordering_b4180fa8",
+    "task": "ordering",
+    "question": "What is the original chronological order of the shuffled segments?",
+    "inputs": [
+      {
+        "label": "Segment 1",
+        "src": "static/audio/demo/ordering_b4180fa8_0.mp3"
+      },
+      {
+        "label": "Segment 2",
+        "src": "static/audio/demo/ordering_b4180fa8_1.mp3"
+      },
+      {
+        "label": "Segment 3",
+        "src": "static/audio/demo/ordering_b4180fa8_2.mp3"
+      }
+    ],
+    "candidates": [],
+    "options": {
+      "A": "3 → 1 → 2",
+      "B": "2 → 1 → 3",
+      "C": "1 → 2 → 3",
+      "D": "3 → 2 → 1"
     },
     "answer": "A"
   }

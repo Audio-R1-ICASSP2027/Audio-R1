@@ -461,6 +461,21 @@
       display: block;
     }
 
+    /* waveform track: a candidate is drawn to scale, under the gap it would fill */
+    .wave-track { flex: 1; min-width: 0; position: relative; }
+    .wave-track .wave { width: 100%; }
+    .wave-track.scaled::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      border-top: 1px dashed #cbd5e0;
+    }
+    .wave-track.scaled .wave { position: relative; }
+
+    .h4-note { text-transform: none; letter-spacing: 0; font-weight: 400; }
+
     .demo-hint { color: var(--muted); font-size: 0.85em; margin-top: 14px; }
     .demo-question { color: var(--heading); font-weight: 600; line-height: 1.6; margin-bottom: 15px; }
 
@@ -701,6 +716,20 @@
       ctx.fillStyle = i / bars < played ? "#34588e" : "#9fb3cf";
       ctx.fillRect(i * 3, (h - bh) / 2, 2, Math.max(2, bh));
     }
+    if (p.gap) {
+      const x = p.gap[0] * w, gw = p.gap[1] * w;
+      ctx.fillStyle = "rgba(184, 74, 60, 0.08)";
+      ctx.fillRect(x, 1, gw, h - 2);
+      ctx.setLineDash([4, 3]);
+      ctx.strokeStyle = "#b84a3c";
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(x + 0.75, 1.5, gw - 1.5, h - 3);
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#b84a3c";
+      ctx.font = "600 11px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("?", x + gw / 2, h / 2 + 4);
+    }
   }
 
   function tick() {
@@ -720,10 +749,18 @@
     label.textContent = item.label;
     const canvas = document.createElement("canvas");
     canvas.className = "wave";
-    row.append(btn, label, canvas);
+    const track = document.createElement("div");
+    track.className = "wave-track";
+    if (item.span) {
+      track.classList.add("scaled");
+      canvas.style.width = item.span[1] * 100 + "%";
+      canvas.style.marginLeft = item.span[0] * 100 + "%";
+    }
+    track.appendChild(canvas);
+    row.append(btn, label, track);
     parent.appendChild(row);
 
-    const p = { audio: new Audio(item.src), btn, canvas, samples: null, gain: 1 };
+    const p = { audio: new Audio(item.src), btn, canvas, samples: null, gain: 1, gap: item.gap || null };
     p.audio.preload = "metadata";
     players.push(p);
 
@@ -766,7 +803,7 @@
     $("demoInputs").innerHTML = "";
     $("demoCandidates").innerHTML = "";
     d.inputs.forEach((it) => audioRow($("demoInputs"), it));
-    d.candidates.forEach((it) => audioRow($("demoCandidates"), { label: "Candidate " + it.label, src: it.src }));
+    d.candidates.forEach((it) => audioRow($("demoCandidates"), { ...it, label: "Candidate " + it.label }));
     $("demoCandidatesWrap").style.display = d.candidates.length ? "" : "none";
 
     $("demoQuestion").textContent = d.question;
