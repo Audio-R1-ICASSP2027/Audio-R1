@@ -25,7 +25,11 @@ window.DEMOS = [
       "C": "Only Candidate 2 is the same recording",
       "D": "Both candidates are the same recording"
     },
-    "answer": "D"
+    "answer": "D",
+    "same": [
+      true,
+      true
+    ]
   },
   {
     "id": "identity_86cd240d",
@@ -52,7 +56,11 @@ window.DEMOS = [
       "C": "Only Candidate 1 is the same recording",
       "D": "Only Candidate 2 is the same recording"
     },
-    "answer": "C"
+    "answer": "C",
+    "same": [
+      true,
+      false
+    ]
   },
   {
     "id": "identity_98f8b556",
@@ -79,7 +87,11 @@ window.DEMOS = [
       "C": "Only Candidate 2 is the same recording",
       "D": "Both candidates are the same recording"
     },
-    "answer": "B"
+    "answer": "B",
+    "same": [
+      false,
+      false
+    ]
   },
   {
     "id": "identity_a6f1c137",
@@ -106,7 +118,11 @@ window.DEMOS = [
       "C": "Neither candidate is the same recording",
       "D": "Only Candidate 1 is the same recording"
     },
-    "answer": "D"
+    "answer": "D",
+    "same": [
+      true,
+      false
+    ]
   },
   {
     "id": "identity_ed934345",
@@ -133,7 +149,11 @@ window.DEMOS = [
       "C": "Both candidates are the same recording",
       "D": "Neither candidate is the same recording"
     },
-    "answer": "C"
+    "answer": "C",
+    "same": [
+      true,
+      true
+    ]
   },
   {
     "id": "identity_aba65a16",
@@ -160,7 +180,11 @@ window.DEMOS = [
       "C": "Only Candidate 1 is the same recording",
       "D": "Only Candidate 2 is the same recording"
     },
-    "answer": "D"
+    "answer": "D",
+    "same": [
+      false,
+      true
+    ]
   },
   {
     "id": "identity_18fd5726",
@@ -187,7 +211,11 @@ window.DEMOS = [
       "C": "Neither candidate is the same recording",
       "D": "Both candidates are the same recording"
     },
-    "answer": "A"
+    "answer": "A",
+    "same": [
+      true,
+      false
+    ]
   },
   {
     "id": "identity_e4db0e63",
@@ -214,7 +242,11 @@ window.DEMOS = [
       "C": "Only Candidate 1 is the same recording",
       "D": "Only Candidate 2 is the same recording"
     },
-    "answer": "B"
+    "answer": "B",
+    "same": [
+      true,
+      true
+    ]
   },
   {
     "id": "inpainting_7235d35a",
@@ -689,7 +721,12 @@ window.DEMOS = [
       "C": "1 → 3 → 2",
       "D": "2 → 3 → 1"
     },
-    "answer": "B"
+    "answer": "B",
+    "order": [
+      3,
+      1,
+      2
+    ]
   },
   {
     "id": "ordering_24d64f05",
@@ -716,7 +753,12 @@ window.DEMOS = [
       "C": "3 → 1 → 2",
       "D": "1 → 2 → 3"
     },
-    "answer": "A"
+    "answer": "A",
+    "order": [
+      1,
+      3,
+      2
+    ]
   },
   {
     "id": "ordering_38dbb2bf",
@@ -743,7 +785,12 @@ window.DEMOS = [
       "C": "3 → 2 → 1",
       "D": "2 → 1 → 3"
     },
-    "answer": "D"
+    "answer": "D",
+    "order": [
+      2,
+      1,
+      3
+    ]
   },
   {
     "id": "ordering_ea8a2fc9",
@@ -770,7 +817,12 @@ window.DEMOS = [
       "C": "2 → 1 → 3",
       "D": "1 → 3 → 2"
     },
-    "answer": "B"
+    "answer": "B",
+    "order": [
+      3,
+      1,
+      2
+    ]
   },
   {
     "id": "ordering_cde380fe",
@@ -797,7 +849,12 @@ window.DEMOS = [
       "C": "1 → 2 → 3",
       "D": "3 → 1 → 2"
     },
-    "answer": "A"
+    "answer": "A",
+    "order": [
+      3,
+      2,
+      1
+    ]
   },
   {
     "id": "ordering_06483ca8",
@@ -824,7 +881,12 @@ window.DEMOS = [
       "C": "2 → 1 → 3",
       "D": "2 → 3 → 1"
     },
-    "answer": "D"
+    "answer": "D",
+    "order": [
+      2,
+      3,
+      1
+    ]
   },
   {
     "id": "ordering_aac87e2d",
@@ -851,7 +913,12 @@ window.DEMOS = [
       "C": "2 → 3 → 1",
       "D": "1 → 2 → 3"
     },
-    "answer": "B"
+    "answer": "B",
+    "order": [
+      1,
+      3,
+      2
+    ]
   },
   {
     "id": "ordering_b4180fa8",
@@ -878,6 +945,11 @@ window.DEMOS = [
       "C": "1 → 2 → 3",
       "D": "3 → 2 → 1"
     },
-    "answer": "A"
+    "answer": "A",
+    "order": [
+      3,
+      1,
+      2
+    ]
   }
 ];

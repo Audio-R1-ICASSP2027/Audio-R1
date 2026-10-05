@@ -81,12 +81,15 @@ def main():
         tag = f"{task}_{pid}"
 
         span = None  # (start, width) of the masked region as fractions of the clip; inpainting only
+        extra = {}
         if task == "identity":
             inputs = [("Anchor", q["anchor_file"])] + [
                 (f"Candidate {i + 1}", f) for i, f in enumerate(q["candidate_files"])]
             options = {k: IDENTITY_TEXT[v] for k, v in q["choice_states"].items()}
             question = "Which candidates are the same recording as the anchor?"
             candidates = []
+            # whether each candidate is an exact copy of the anchor (used for colouring/badges)
+            extra["same"] = [bool(q["cand1_same"]), bool(q["cand2_same"])]
         elif task == "inpainting":
             inputs = [("Masked clip", q["clip_file"])]
             candidates = [(chr(ord("A") + i), f) for i, f in enumerate(q["choice_files"])]
@@ -100,6 +103,8 @@ def main():
             options = {k: v.replace(", ", " → ") for k, v in q["choice_orders"].items()}
             question = "What is the original chronological order of the shuffled segments?"
             candidates = []
+            # playback indices (1-based) listed in chronological order
+            extra["order"] = [int(i) for i in q["answer_order"].split(",")]
 
         demos.append({
             "id": tag,
@@ -114,6 +119,7 @@ def main():
                            for lab, f in candidates],
             "options": options,
             "answer": q["answer_gt"],
+            **extra,
         })
 
     with open(JS_OUT, "w") as f:

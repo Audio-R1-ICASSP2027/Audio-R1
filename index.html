@@ -476,6 +476,25 @@
 
     .h4-note { text-transform: none; letter-spacing: 0; font-weight: 400; }
 
+    .seg-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+
+    .wave-badge {
+      flex: 0 0 auto;
+      font-size: 0.75em;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+    .wave-badge.same { background: rgba(52, 88, 142, 0.12); color: var(--primary); }
+    .wave-badge.diff { background: #edf2f7; color: var(--muted); }
+
+    .seq-row { margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--border); }
+    .seq-track { display: flex; align-items: center; gap: 4px; }
+    .seq-track .wave { flex: 1; width: auto; min-width: 0; }
+    .seq-arrow { flex: 0 0 auto; color: var(--muted); font-weight: 700; font-size: 0.9em; }
+    .seq-note { color: var(--muted); font-size: 0.85em; margin: 2px 0 0 144px; }
+
     .demo-hint { color: var(--muted); font-size: 0.85em; margin-top: 14px; }
     .demo-question { color: var(--heading); font-weight: 600; line-height: 1.6; margin-bottom: 15px; }
 
@@ -507,6 +526,7 @@
       .demo-body { grid-template-columns: 1fr; gap: 16px; }
       .demo-card { padding: 16px; }
       .audio-label { flex-basis: 78px; font-size: 0.85em; }
+      .seq-note { margin-left: 0; }
       header { padding: 40px 16px 30px; }
       h1 { font-size: 1.8em; }
       .content { padding: 40px 16px; }
@@ -693,6 +713,13 @@
     return peakCache[src];
   }
 
+  // [played, unplayed] bar colours
+  const COLORS = {
+    blue: ["#34588e", "#9fb3cf"],
+    gray: ["#718096", "#d5dbe3"],
+    seg: [["#34588e", "#9fb3cf"], ["#c05621", "#f3c3a1"], ["#2f855a", "#a7d7bd"]],
+  };
+
   function drawWave(p) {
     const c = p.canvas;
     const dpr = window.devicePixelRatio || 1;
@@ -702,7 +729,7 @@
     const ctx = c.getContext("2d");
     ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, w, h);
-    const bars = Math.max(20, Math.floor(w / 3));
+    const bars = Math.max(10, Math.floor(w / 3));
     const played = p.audio.duration ? p.audio.currentTime / p.audio.duration : 0;
     for (let i = 0; i < bars; i++) {
       let amp = 0.02;
@@ -713,7 +740,7 @@
         amp = Math.max(0.02, m);
       }
       const bh = Math.min(1, amp * p.gain) * (h - 8);
-      ctx.fillStyle = i / bars < played ? "#34588e" : "#9fb3cf";
+      ctx.fillStyle = i / bars < played ? p.color[0] : p.color[1];
       ctx.fillRect(i * 3, (h - bh) / 2, 2, Math.max(2, bh));
     }
     if (p.gap) {
@@ -725,10 +752,19 @@
       ctx.lineWidth = 1.5;
       ctx.strokeRect(x + 0.75, 1.5, gw - 1.5, h - 3);
       ctx.setLineDash([]);
+      const fs = Math.round(Math.min(h * 0.62, gw * 0.6));
       ctx.fillStyle = "#b84a3c";
-      ctx.font = "600 11px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+      ctx.font = `800 ${fs}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`;
       ctx.textAlign = "center";
-      ctx.fillText("?", x + gw / 2, h / 2 + 4);
+      ctx.textBaseline = "middle";
+      ctx.fillText("?", x + gw / 2, h / 2 + 1);
+    }
+    if (p.tag) {
+      ctx.font = "700 11px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+      ctx.textAlign = "left";
+      ctx.textBaseline = "top";
+      ctx.fillStyle = p.color[0];
+      ctx.fillText(p.tag, 5, 4);
     }
   }
 
@@ -737,44 +773,14 @@
     if (players.some((p) => !p.audio.paused)) requestAnimationFrame(tick);
   }
 
-  function audioRow(parent, item) {
-    const row = document.createElement("div");
-    row.className = "audio-row";
-    const btn = document.createElement("button");
-    btn.className = "play-btn";
-    btn.textContent = "▶";
-    btn.setAttribute("aria-label", "Play " + item.label);
-    const label = document.createElement("span");
-    label.className = "audio-label";
-    label.textContent = item.label;
-    const canvas = document.createElement("canvas");
-    canvas.className = "wave";
-    const track = document.createElement("div");
-    track.className = "wave-track";
-    if (item.span) {
-      track.classList.add("scaled");
-      canvas.style.width = item.span[1] * 100 + "%";
-      canvas.style.marginLeft = item.span[0] * 100 + "%";
-    }
-    track.appendChild(canvas);
-    row.append(btn, label, track);
-    parent.appendChild(row);
-
-    const p = { audio: new Audio(item.src), btn, canvas, samples: null, gain: 1, gap: item.gap || null };
+  // one waveform canvas + its audio; `btn` is the play button that reflects its state
+  function makeWave(canvas, src, btn, opts = {}) {
+    const p = { audio: new Audio(src), btn, canvas, samples: null, gain: 1,
+                color: opts.color || COLORS.blue, gap: opts.gap || null, tag: opts.tag || null };
     p.audio.preload = "metadata";
     players.push(p);
-
-    const play = () => { stopAll(); p.audio.play(); btn.textContent = "❚❚"; requestAnimationFrame(tick); };
-    btn.addEventListener("click", () => (p.audio.paused ? play() : (p.audio.pause(), btn.textContent = "▶")));
-    canvas.addEventListener("click", (e) => {
-      const r = canvas.getBoundingClientRect();
-      const seek = () => { p.audio.currentTime = ((e.clientX - r.left) / r.width) * p.audio.duration; play(); };
-      p.audio.readyState >= 1 ? seek() : p.audio.addEventListener("loadedmetadata", seek, { once: true });
-    });
-    p.audio.addEventListener("ended", () => { btn.textContent = "▶"; drawWave(p); });
     p.audio.addEventListener("loadedmetadata", () => drawWave(p));
-
-    getPeaks(item.src).then((s) => {
+    getPeaks(src).then((s) => {
       if (!s) return;
       let m = 0;
       for (let i = 0; i < s.length; i++) { const v = Math.abs(s[i]); if (v > m) m = v; }
@@ -783,6 +789,103 @@
       drawWave(p);
     });
     drawWave(p);
+    return p;
+  }
+
+  function playFrom(p, frac, onEnd) {
+    stopAll();
+    const go = () => {
+      if (frac != null) p.audio.currentTime = frac * p.audio.duration;
+      p.audio.play();
+      p.btn.textContent = "❚❚";
+      p.audio.onended = () => { p.btn.textContent = "▶"; drawWave(p); if (onEnd) onEnd(); };
+      requestAnimationFrame(tick);
+    };
+    p.audio.readyState >= 1 ? go() : p.audio.addEventListener("loadedmetadata", go, { once: true });
+  }
+
+  function rowShell(parent, label, opts = {}) {
+    const row = document.createElement("div");
+    row.className = "audio-row" + (opts.cls ? " " + opts.cls : "");
+    const btn = document.createElement("button");
+    btn.className = "play-btn";
+    btn.textContent = "▶";
+    btn.setAttribute("aria-label", "Play " + label);
+    const lab = document.createElement("span");
+    lab.className = "audio-label";
+    if (opts.dot) {
+      const dot = document.createElement("span");
+      dot.className = "seg-dot";
+      dot.style.background = opts.dot;
+      lab.appendChild(dot);
+    }
+    lab.appendChild(document.createTextNode(label));
+    const track = document.createElement("div");
+    track.className = "wave-track";
+    row.append(btn, lab, track);
+    if (opts.badge) {
+      const b = document.createElement("span");
+      b.className = "wave-badge " + opts.badge.cls;
+      b.textContent = opts.badge.text;
+      row.appendChild(b);
+    }
+    parent.appendChild(row);
+    return { btn, track };
+  }
+
+  function audioRow(parent, item, opts = {}) {
+    const { btn, track } = rowShell(parent, item.label, opts);
+    const canvas = document.createElement("canvas");
+    canvas.className = "wave";
+    if (item.span) {
+      track.classList.add("scaled");
+      canvas.style.width = item.span[1] * 100 + "%";
+      canvas.style.marginLeft = item.span[0] * 100 + "%";
+    }
+    track.appendChild(canvas);
+    const p = makeWave(canvas, item.src, btn, { color: opts.color, gap: item.gap });
+    btn.addEventListener("click", () => (p.audio.paused ? playFrom(p, null) : (p.audio.pause(), btn.textContent = "▶")));
+    canvas.addEventListener("click", (e) => {
+      const r = canvas.getBoundingClientRect();
+      playFrom(p, (e.clientX - r.left) / r.width);
+    });
+  }
+
+  // temporal ordering: the shuffled segments laid back out in their original order, played back to back
+  function sequenceRow(parent, d) {
+    const { btn, track } = rowShell(parent, "Original order", { cls: "seq-row" });
+    track.classList.add("seq-track");
+    const parts = d.order.map((k, i) => {
+      if (i) {
+        const arrow = document.createElement("span");
+        arrow.className = "seq-arrow";
+        arrow.textContent = "→";
+        track.appendChild(arrow);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.className = "wave";
+      track.appendChild(canvas);
+      return makeWave(canvas, d.inputs[k - 1].src, btn, { color: COLORS.seg[k - 1], tag: String(k) });
+    });
+    const chain = (i, frac) => {
+      if (i >= parts.length) return;
+      if (frac == null) parts.slice(i).forEach((p) => { p.audio.currentTime = 0; drawWave(p); });
+      playFrom(parts[i], frac, () => chain(i + 1, null));
+    };
+    btn.addEventListener("click", () => {
+      const cur = parts.findIndex((p) => !p.audio.paused);
+      if (cur >= 0) { parts[cur].audio.pause(); btn.textContent = "▶"; return; }
+      parts.forEach((p) => { p.audio.currentTime = 0; drawWave(p); });
+      chain(0, null);
+    });
+    parts.forEach((p, i) => p.canvas.addEventListener("click", (e) => {
+      const r = p.canvas.getBoundingClientRect();
+      chain(i, (e.clientX - r.left) / r.width);
+    }));
+    const note = document.createElement("p");
+    note.className = "seq-note";
+    note.textContent = "Segments " + d.order.join(" → ") + ", stitched back in their original order.";
+    parent.appendChild(note);
   }
 
   function render() {
@@ -802,7 +905,20 @@
 
     $("demoInputs").innerHTML = "";
     $("demoCandidates").innerHTML = "";
-    d.inputs.forEach((it) => audioRow($("demoInputs"), it));
+    if (d.task === "identity") {
+      d.inputs.forEach((it, i) => {
+        if (i === 0) return audioRow($("demoInputs"), it, { color: COLORS.blue, dot: COLORS.blue[0] });
+        const same = d.same[i - 1];
+        audioRow($("demoInputs"), it, same
+          ? { color: COLORS.blue, dot: COLORS.blue[0], badge: { cls: "same", text: "= Anchor" } }
+          : { color: COLORS.gray, dot: COLORS.gray[0], badge: { cls: "diff", text: "≠ Anchor" } });
+      });
+    } else if (d.task === "ordering") {
+      d.inputs.forEach((it, i) => audioRow($("demoInputs"), it, { color: COLORS.seg[i], dot: COLORS.seg[i][0] }));
+      sequenceRow($("demoInputs"), d);
+    } else {
+      d.inputs.forEach((it) => audioRow($("demoInputs"), it));
+    }
     d.candidates.forEach((it) => audioRow($("demoCandidates"), { ...it, label: "Candidate " + it.label }));
     $("demoCandidatesWrap").style.display = d.candidates.length ? "" : "none";
 
